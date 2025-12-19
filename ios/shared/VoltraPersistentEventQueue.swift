@@ -6,9 +6,7 @@ public struct VoltraPersistentEventQueue {
     private static let queueKey = "Voltra_EventsQueue"
     
     /// Write an event to the persistent queue (UserDefaults)
-    static func write(_ event: VoltraEventType) {
-        let payload = event.asDictionary
-        
+    static func write(_ payload: [String: Any]) {
         guard let group = VoltraConfig.groupIdentifier(),
               let defaults = UserDefaults(suiteName: group),
               JSONSerialization.isValidJSONObject(payload),
@@ -25,7 +23,8 @@ public struct VoltraPersistentEventQueue {
         defaults.set(queue, forKey: queueKey)
         defaults.synchronize()
         
-        print("[VoltraPersistentEventQueue] Wrote event: \(event.name)")
+        let eventName = payload["type"] as? String ?? "unknown"
+        print("[VoltraPersistentEventQueue] Wrote event: \(eventName)")
     }
     
     /// Read all events from the persistent queue and clear it

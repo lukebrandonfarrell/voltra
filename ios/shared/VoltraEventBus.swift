@@ -12,25 +12,28 @@ public class VoltraEventBus {
     private init() {}
     
     /// Send an event. Routing is automatic based on event type:
-    /// - Persistent events → UserDefaults (survives app death, cross-process)
-    /// - Transient events → NotificationCenter (in-memory, same process)
+    /// - Persistent events → UserDefaults (survives app death, cross-process) + NotificationCenter (hot delivery)
+    /// - Transient events → NotificationCenter only (in-memory, same process)
     public func send(_ event: VoltraEventType) {
+        // Compute dictionary once to ensure consistent timestamp across all delivery paths
+        let eventData = event.asDictionary
+        
         if event.isPersistent {
-            // Persistent: write to UserDefaults (for widget → app communication)
-            VoltraPersistentEventQueue.write(event)
-        } else {
-            // Transient: post to NotificationCenter (in-process only)
-            NotificationCenter.default.post(
-                name: .voltraEvent,
-                object: nil,
-                userInfo: event.asDictionary
-            )
+            // Persistent: write to UserDefaults first (for widget → app communication, survives app death)
+            VoltraPersistentEventQueue.write(eventData)
         }
+        
+        // Always post to NotificationCenter for immediate delivery when app is running
+        NotificationCenter.default.post(
+            name: .voltraEvent,
+            object: nil,
+            userInfo: eventData
+        )
     }
     
     /// Subscribe to Voltra events. This will:
     /// 1. Replay any persisted events from UserDefaults (cold start)
-    /// 2. Set up a NotificationCenter observer for transient events (hot)
+    /// 2. Set up a NotificationCenter observer for all events (hot delivery)
     ///
     /// - Parameter handler: A closure that receives the event name and event data dictionary
     public func subscribe(handler: @escaping (String, [String: Any]) -> Void) {
@@ -44,7 +47,7 @@ public class VoltraEventBus {
         }
         print("[VoltraEventBus] Replayed \(persistedEvents.count) persisted events")
         
-        // 2. Listen for transient events via NotificationCenter
+        // 2. Listen for all events via NotificationCenter (hot delivery)
         observer = NotificationCenter.default.addObserver(
             forName: .voltraEvent,
             object: nil,
