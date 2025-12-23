@@ -4,3 +4,5 @@
 /plugin/build
 /.eslintrc.js
 /.expo
+/website/doc_build
+/website/docs

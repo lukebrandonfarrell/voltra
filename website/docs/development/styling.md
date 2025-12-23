@@ -81,21 +81,24 @@ See the [Layout & Containers](../components/layout) documentation for details on
 
 ```tsx
 import { Voltra } from 'voltra'
-;<Voltra.VStack
-  style={{
-    padding: 16,
-    borderRadius: 18,
-    backgroundColor: '#101828',
-  }}
->
-  <Voltra.Text
+
+const element = (
+  <Voltra.VStack
     style={{
-      color: '#F8FAFC',
-      fontSize: 18,
-      fontWeight: '600',
+      padding: 16,
+      borderRadius: 18,
+      backgroundColor: '#101828',
     }}
   >
-    Styled Text
-  </Voltra.Text>
-</Voltra.VStack>
+    <Voltra.Text
+      style={{
+        color: '#F8FAFC',
+        fontSize: 18,
+        fontWeight: '600',
+      }}
+    >
+      Styled Text
+    </Voltra.Text>
+  </Voltra.VStack>
+)
 ```

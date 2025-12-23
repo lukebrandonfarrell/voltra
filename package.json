@@ -23,6 +23,8 @@
     "clean": "expo-module clean",
     "clean:plugin": "rm -rf plugin/build plugin/tsconfig.tsbuildinfo",
     "format:check": "prettier --check .",
+    "format:swift:check": "swiftformat --lint ios",
+    "format:swift:fix": "swiftformat ios",
     "lint": "expo-module eslint",
     "lint:libOnly": "expo-module eslint ./src",
     "test": "expo-module test",
