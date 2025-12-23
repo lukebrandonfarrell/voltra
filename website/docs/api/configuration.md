@@ -2,6 +2,8 @@
 
 Voltra provides several configuration options to control Live Activity behavior, lifecycle, and appearance. These options can be used when starting, updating, or stopping Live Activities.
 
+For Expo plugin configuration options (like `groupIdentifier`, `enablePushNotifications`, `deploymentTarget`, and `widgets`), see the [Plugin Configuration](/api/plugin-configuration) documentation.
+
 ## Dismissal Policy
 
 Voltra supports configuring how Live Activities behave after they end. You can control the dismissal timing using the `dismissalPolicy` option:

@@ -1,6 +1,11 @@
 [
   {
     "type": "file",
+    "name": "plugin-configuration",
+    "label": "Plugin Configuration"
+  },
+  {
+    "type": "file",
     "name": "configuration",
     "label": "Configuration"
   }

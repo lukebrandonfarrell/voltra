@@ -35,7 +35,8 @@ To enable server-side updates via push notifications, you need to configure the 
         "voltra",
         {
           "enablePushNotifications": true,
-          "groupIdentifier": "group.your.app.voltraui"
+          "groupIdentifier": "group.your.app.voltraui",
+          "deploymentTarget": "18.0"
         }
       ]
     ]
