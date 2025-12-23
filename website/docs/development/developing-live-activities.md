@@ -2,6 +2,51 @@
 
 Voltra provides APIs that make building and testing Live Activities easier during development.
 
+## Supported variants
+
+Live Activities in iOS can appear in different contexts, and Voltra supports defining UI variants for each of these contexts. For detailed information about Live Activity design guidelines, see the [Apple Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/live-activities).
+
+### Lock Screen
+
+The `lockScreen` variant defines how your Live Activity appears on the lock screen. It can be either a ReactNode directly, or an object with content and optional styling:
+
+```typescript
+const variants = {
+  lockScreen: (
+    <Voltra.VStack>
+      <Voltra.Text>Your content here</Voltra.Text>
+    </Voltra.VStack>
+  ),
+}
+```
+
+### Dynamic Island
+
+The `island` variant defines how your Live Activity appears in the Dynamic Island (available on iPhone 14 Pro and later). The Dynamic Island has three display states:
+
+- **Minimal**: A compact pill-shaped view that appears when the activity is in the background
+- **Compact**: A slightly larger view with leading and trailing regions
+- **Expanded**: A full-width view with center, leading, trailing, and bottom regions
+
+```typescript
+const variants = {
+  island: {
+    keylineTint: '#10B981', // Optional tint color for the Dynamic Island keyline
+    minimal: <Voltra.Symbol name="checkmark.circle.fill" tintColor="#10B981" />,
+    compact: {
+      leading: <Voltra.Text>Order</Voltra.Text>,
+      trailing: <Voltra.Text>Confirmed</Voltra.Text>,
+    },
+    expanded: {
+      center: <Voltra.Text style={{ fontSize: 16, fontWeight: '600' }}>Order Confirmed</Voltra.Text>,
+      leading: <Voltra.Symbol name="checkmark.circle.fill" />,
+      trailing: <Voltra.Text>ETA: 15 min</Voltra.Text>,
+      bottom: <Voltra.Text style={{ fontSize: 12 }}>Your order is being prepared</Voltra.Text>,
+    },
+  },
+}
+```
+
 ## useLiveActivity
 
 For React development, Voltra provides the `useLiveActivity` hook for integration with the component lifecycle and automatic updates during development.
