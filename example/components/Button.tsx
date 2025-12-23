@@ -16,8 +16,8 @@ export const Button = ({ title, onPress, style, variant = 'primary', disabled = 
     variant === 'primary'
       ? styles.primaryButtonText
       : variant === 'secondary'
-        ? styles.secondaryButtonText
-        : styles.ghostButtonText
+      ? styles.secondaryButtonText
+      : styles.ghostButtonText
 
   return (
     <TouchableOpacity
