@@ -403,18 +403,7 @@ export function transformProps(
   const transformed: Record<string, VoltraPropValue> = {}
 
   for (const [key, value] of Object.entries(props)) {
-    if (key === 'modifiers' && Array.isArray(value)) {
-      // Transform modifiers array to [name, args] format
-      // Keep 'modifiers' as string key (special case)
-      transformed[key] = value.map((modifier: any) => {
-        if (typeof modifier === 'object' && modifier !== null) {
-          const name = 'name' in modifier ? shorten(String(modifier.name)) : ''
-          const args = 'args' in modifier ? modifier.args : {}
-          return [name, args]
-        }
-        return modifier
-      })
-    } else if (key === 'style') {
+    if (key === 'style') {
       // Use stylesheet registry if available, otherwise fall back to inline compression
       const shortKey = shorten(key)
       if (context.stylesheetRegistry) {

@@ -44,11 +44,6 @@ export const validateShortNames = (data: ComponentsData): void => {
     allNames.add(prop)
   }
 
-  // Modifiers
-  for (const modifier of data.modifiers ?? []) {
-    allNames.add(modifier)
-  }
-
   // 1. Every name MUST have a short form
   for (const name of allNames) {
     if (!shortNames[name]) {
@@ -101,7 +96,7 @@ const generateTypeScriptMapping = (data: ComponentsData): string => {
 
 /**
  * Unified mapping from full names to short names
- * Used for props, style properties, and modifiers
+ * Used for props and style properties
  */
 export const NAME_TO_SHORT: Record<string, string> = {
 ${nameToShortEntries}
@@ -152,7 +147,7 @@ const generateSwiftMapping = (data: ComponentsData): string => {
 
 import Foundation
 
-/// Unified short name mappings for props, style properties, and modifiers
+/// Unified short name mappings for props and style properties
 /// Used to expand compressed payload keys back to their full names
 public enum ShortNames {
     /// Mapping from short names to full names

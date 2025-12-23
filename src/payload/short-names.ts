@@ -5,7 +5,7 @@
 
 /**
  * Unified mapping from full names to short names
- * Used for props, style properties, and modifiers
+ * Used for props and style properties
  */
 export const NAME_TO_SHORT: Record<string, string> = {
   'absolutePosition': 'ap',
