@@ -8,13 +8,25 @@ export interface AddConfigurationListOptions {
   bundleIdentifier: string
   deploymentTarget: string
   marketingVersion?: string
+  codeSignStyle?: string
+  developmentTeam?: string
+  provisioningProfileSpecifier?: string
 }
 
 /**
  * Adds the XCConfigurationList for the widget extension target.
  */
 export function addXCConfigurationList(xcodeProject: XcodeProject, options: AddConfigurationListOptions) {
-  const { targetName, currentProjectVersion, bundleIdentifier, deploymentTarget, marketingVersion } = options
+  const {
+    targetName,
+    currentProjectVersion,
+    bundleIdentifier,
+    deploymentTarget,
+    marketingVersion,
+    codeSignStyle,
+    developmentTeam,
+    provisioningProfileSpecifier,
+  } = options
 
   const commonBuildSettings: any = {
     PRODUCT_NAME: `"$(TARGET_NAME)"`,
@@ -31,6 +43,17 @@ export function addXCConfigurationList(xcodeProject: XcodeProject, options: AddC
     SWIFT_OPTIMIZATION_LEVEL: `"-Onone"`,
     CODE_SIGN_ENTITLEMENTS: `"${targetName}/${targetName}.entitlements"`,
     APPLICATION_EXTENSION_API_ONLY: '"YES"',
+  }
+
+  // Synchronize code signing settings from main app target
+  if (codeSignStyle) {
+    commonBuildSettings.CODE_SIGN_STYLE = `"${codeSignStyle}"`
+  }
+  if (developmentTeam) {
+    commonBuildSettings.DEVELOPMENT_TEAM = `"${developmentTeam}"`
+  }
+  if (provisioningProfileSpecifier) {
+    commonBuildSettings.PROVISIONING_PROFILE_SPECIFIER = `"${provisioningProfileSpecifier}"`
   }
 
   const buildConfigurationsList = [

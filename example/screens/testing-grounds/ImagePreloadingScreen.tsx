@@ -62,14 +62,12 @@ export default function ImagePreloadingScreen() {
       await new Promise((resolve) => setTimeout(resolve, 2000))
 
       // Preload the image
-      const result = await preloadImages([
+      await preloadImages([
         {
           url: url.trim(),
           key: assetKey,
         },
       ])
-
-      console.log('preloaded image', result)
 
       // Reload live activities to show the preloaded image
       await reloadLiveActivities()

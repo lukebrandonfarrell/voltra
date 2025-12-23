@@ -19,6 +19,9 @@ export interface ConfigureBuildOptions {
     group: string
   }
   widgetFiles: WidgetFiles
+  codeSignStyle?: string
+  developmentTeam?: string
+  provisioningProfileSpecifier?: string
 }
 
 /**
@@ -39,6 +42,9 @@ export function configureBuild(xcodeProject: XcodeProject, options: ConfigureBui
     groupName,
     productFile,
     widgetFiles,
+    codeSignStyle,
+    developmentTeam,
+    provisioningProfileSpecifier,
   } = options
 
   const xCConfigurationList = addXCConfigurationList(xcodeProject, {
@@ -47,6 +53,9 @@ export function configureBuild(xcodeProject: XcodeProject, options: ConfigureBui
     bundleIdentifier,
     deploymentTarget,
     marketingVersion,
+    codeSignStyle,
+    developmentTeam,
+    provisioningProfileSpecifier,
   })
 
   addBuildPhases(xcodeProject, {
@@ -58,3 +67,4 @@ export function configureBuild(xcodeProject: XcodeProject, options: ConfigureBui
 
   return xCConfigurationList
 }
+

@@ -7,6 +7,7 @@ import { addXCConfigurationList } from './build/configurationList'
 import { addPbxGroup } from './groups'
 import { addProductFile } from './productFile'
 import { configureTarget } from './target'
+import { getMainAppTargetSettings } from './utils/getMainAppTargetSettings'
 
 export interface ConfigureXcodeProjectProps {
   targetName: string
@@ -49,13 +50,20 @@ export const configureXcodeProject: ConfigPlugin<ConfigureXcodeProjectProps> = (
     const currentProjectVersion = config.ios?.buildNumber || '1'
     const marketingVersion = config.version
 
+    // Read main app target settings to synchronize deployment target and code signing
+    const mainAppSettings = getMainAppTargetSettings(xcodeProject)
+    const effectiveDeploymentTarget = mainAppSettings?.deploymentTarget || deploymentTarget
+
     // Add configuration list
     const xCConfigurationList = addXCConfigurationList(xcodeProject, {
       targetName,
       currentProjectVersion,
       bundleIdentifier,
-      deploymentTarget,
+      deploymentTarget: effectiveDeploymentTarget,
       marketingVersion,
+      codeSignStyle: mainAppSettings?.codeSignStyle,
+      developmentTeam: mainAppSettings?.developmentTeam,
+      provisioningProfileSpecifier: mainAppSettings?.provisioningProfileSpecifier,
     })
 
     // Add product file
@@ -77,12 +85,15 @@ export const configureXcodeProject: ConfigPlugin<ConfigureXcodeProjectProps> = (
       targetName,
       targetUuid,
       bundleIdentifier,
-      deploymentTarget,
+      deploymentTarget: effectiveDeploymentTarget,
       currentProjectVersion,
       marketingVersion,
       groupName,
       productFile,
       widgetFiles,
+      codeSignStyle: mainAppSettings?.codeSignStyle,
+      developmentTeam: mainAppSettings?.developmentTeam,
+      provisioningProfileSpecifier: mainAppSettings?.provisioningProfileSpecifier,
     })
 
     // Add PBX group
